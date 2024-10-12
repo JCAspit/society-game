@@ -7,6 +7,7 @@ public class Ground extends JButton implements Tile {
     private final int x;
     private final int y;
     private final Color color = Color.BLACK;
+    private Structure structure;
 
     public Ground() {
         this.x = 0;
@@ -28,6 +29,10 @@ public class Ground extends JButton implements Tile {
 
     public Color getColor() {
         return this.color;
+    }
+
+    public Structure getStructure() {
+        return this.structure;
     }
 
     public String toString() {
