@@ -44,11 +44,7 @@ public class Ground extends JButton implements Tile {
         return this.structure;
     }
 
-    public int getFIELD_SIZE() {
-        return FIELD_SIZE;
-    }
-
-    public void buildStructure(Structure structure) {
+    public void setStructure(Structure structure) {
         this.structure = structure;
     }
 
