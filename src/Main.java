@@ -2,13 +2,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class Main extends JFrame implements KeyListener {
 
     private Tile[][] field;
     final private int FIELD_WIDTH = 5;
     final private int FIELD_HEIGHT = 5;
+    final private int FIELD_SIZE = 100;
 
     public void generateMap(int w, int h) {
 
@@ -17,38 +20,35 @@ public class Main extends JFrame implements KeyListener {
         for (int j = 0; j < w; j++) {
             for (int k = 0; k < h; k++) {
 
-                int random = (int) (Math.random() * 2 - 0 + 1) + 0;
-                switch (random) {
-                    case 1: {
-                        Ground tile = new Ground(j * 100, k * 100);
+                int random = (int) (Math.random() * 10 - 0 + 1) + 0;
+                if(random >= 1 && random <= 5) {
+                    Ground tile = new Ground(j * FIELD_SIZE, k * FIELD_SIZE, FIELD_SIZE);
 
-                        //tile.setBorder(null);
-                        tile.setBounds(j * 100, k * 100, 100, 100);
-                        tile.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent actionEvent) {
-                                repaint();
+                    //tile.setBorder(null);
+                    tile.setBounds(j * FIELD_SIZE, k * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+                    tile.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            if(tile.getStructure() == null) {
+                                tile.buildStructure(new Farm());
                             }
-                        });
+                        }
+                    });
 
-                        grid[j][k] = tile;
-                        add(tile);
-                        break;
-                    }
+                    grid[j][k] = tile;
+                    add(tile);
 
-                    case 2: {
-                        Water tile = new Water(j * 100, k * 100);
+                }else if(random >= 6 && random <= 10) {
+                    Water tile = new Water(j * FIELD_SIZE, k * FIELD_SIZE, FIELD_SIZE);
 
-                        tile.setBorder(null);
-                        tile.setBounds(j * 100, k * 100, 100, 100);
+                    tile.setBorder(null);
+                    tile.setBounds(j * FIELD_SIZE, k * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
 
-                        grid[j][k] = tile;
-                        add(tile);
-                        break;
-                    }
+                    grid[j][k] = tile;
+                    add(tile);
 
-                    default:
-                        System.out.println("Uh oh");
+                }else {
+                    System.out.println("Uh oh " + random);
                 }
             }
         }
@@ -64,7 +64,12 @@ public class Main extends JFrame implements KeyListener {
             System.out.println("Clearing map . . .");
             for (Tile[] row : field) {
                 for (Tile tile : row) {
-                    remove((JButton) tile);
+                    try {
+                        remove((JButton) tile);
+                    }
+                    catch(Exception e) {
+                        System.out.println(e.toString());
+                    }
                 }
             }
             repaint();
@@ -73,7 +78,7 @@ public class Main extends JFrame implements KeyListener {
     }
 
     public Main() {
-        setSize(505, 519);
+        setSize(504, 518);
         setTitle("Grid Test");
         ImageIcon icon = new ImageIcon("assets/icon.jpg");
         setIconImage(icon.getImage());
